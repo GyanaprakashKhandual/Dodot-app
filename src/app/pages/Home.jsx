@@ -54,7 +54,7 @@ const DoDotLanding = () => {
     }
   };
 
-  const currentTheme = themes[theme];
+  const currentTheme = themes[theme] || themes['light']; // Fallback to light theme
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -97,6 +97,20 @@ const DoDotLanding = () => {
       description: "Your data is encrypted and completely private to you"
     }
   ];
+
+  // Close color picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showColorPicker && !event.target.closest('.theme-picker')) {
+        setShowColorPicker(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showColorPicker]);
 
   return (
     <div className={`h-screen w-screen overflow-hidden ${currentTheme.bg} transition-all duration-500 flex flex-col`}>
@@ -165,7 +179,7 @@ const DoDotLanding = () => {
             </motion.button>
 
             {/* Theme Toggle */}
-            <div className="relative">
+            <div className="relative theme-picker">
               <motion.button
                 onClick={() => setShowColorPicker(!showColorPicker)}
                 className={`p-3 rounded-xl ${currentTheme.buttonSecondary} ${currentTheme.text} border border-white/10`}
@@ -290,8 +304,6 @@ const DoDotLanding = () => {
           </motion.div>
         </motion.div>
       </main>
-
-
     </div>
   );
 };
