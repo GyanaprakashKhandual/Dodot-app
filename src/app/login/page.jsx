@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Mail, Lock, Eye, EyeOff, Palette, ArrowLeft } from 'lucide-react';
@@ -8,6 +9,19 @@ const DoDotLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Close color picker when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showColorPicker && !event.target.closest('.theme-picker')) {
+        setShowColorPicker(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showColorPicker]);
 
   const themes = {
     light: {
@@ -134,7 +148,7 @@ const DoDotLogin = () => {
             </motion.button>
 
             {/* Theme Toggle */}
-            <div className="relative">
+            <div className="relative theme-picker">
               <motion.button
                 onClick={() => setShowColorPicker(!showColorPicker)}
                 className={`p-3 rounded-xl ${currentTheme.buttonSecondary} ${currentTheme.text} border border-white/10`}

@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Star, Palette, CheckCircle2, Target, Zap, Shield } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
 const DoDotLanding = () => {
+  const router = useRouter();
   const [theme, setTheme] = useState('light');
   const [showColorPicker, setShowColorPicker] = useState(false);
 
@@ -163,6 +164,7 @@ const DoDotLanding = () => {
           <div className="flex items-center space-x-4">
             {/* Login/Signup Buttons */}
             <motion.button
+            onClick={() => router.push('/login')} 
               className={`px-4 py-2 rounded-lg ${currentTheme.textSecondary} hover:${currentTheme.text} transition-colors`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
