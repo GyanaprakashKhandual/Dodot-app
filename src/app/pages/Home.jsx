@@ -173,6 +173,7 @@ const DoDotLanding = () => {
             </motion.button>
             
             <motion.button
+            onClick={() => router.push('/register')}
               className={`px-6 py-2 rounded-lg ${currentTheme.button} text-white font-medium`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -265,6 +266,7 @@ const DoDotLanding = () => {
             className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-6 mb-8"
           >
             <motion.button
+            onClick={() => router.push('/app')}
               className={`px-8 py-3 rounded-2xl ${currentTheme.button} text-white font-semibold ${currentTheme.shadow}`}
               {...scaleOnHover}
             >
