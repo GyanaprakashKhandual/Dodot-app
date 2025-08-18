@@ -55,7 +55,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, type = 'warn
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+        className="fixed inset-0 flex items-center justify-center p-4 z-50"
       >
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -609,7 +609,7 @@ export default function TodoDashboard() {
                 placeholder="Search todos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white"
               />
             </div>
 
