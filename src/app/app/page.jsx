@@ -115,7 +115,7 @@ const CustomDropdown = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-3 py-2 text-left bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent text-gray-900 dark:text-gray-100 flex items-center justify-between"
+        className="w-full px-3 py-2 text-left bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none text-gray-900 dark:text-gray-100 flex items-center justify-between"
       >
         <span>{selectedOption?.label || placeholder}</span>
         <ChevronDownIcon />
@@ -308,39 +308,6 @@ export default function TodoDashboard() {
     return true;
   };
 
-  // Mock data for demonstration
-  const mockTodos = [
-    {
-      _id: '1',
-      workType: 'Professional',
-      workName: 'Complete project documentation',
-      startDate: '2025-08-18',
-      startTime: '09:00',
-      endDate: '2025-08-20',
-      endTime: '17:00',
-      status: 'Working'
-    },
-    {
-      _id: '2',
-      workType: 'Personal',
-      workName: 'Grocery shopping',
-      startDate: '2025-08-19',
-      startTime: '10:00',
-      endDate: '2025-08-19',
-      endTime: '12:00',
-      status: 'Delayed'
-    },
-    {
-      _id: '3',
-      workType: 'Hobby',
-      workName: 'Learn new guitar song',
-      startDate: '2025-08-18',
-      startTime: '20:00',
-      endDate: '2025-08-18',
-      endTime: '21:30',
-      status: 'Working'
-    }
-  ];
 
   // Fetch all todos
   const fetchTodos = async () => {
@@ -350,12 +317,8 @@ export default function TodoDashboard() {
     try {
       // Mock API call - replace with actual API
       setTimeout(() => {
-        setTodos(mockTodos);
         setIsLoading(false);
-      }, 1000);
-      
-      // Uncomment for actual API
-      /*
+      }, 1000)
       const token = getAuthToken();
       const response = await fetch('https://dodot.onrender.com/api/todo', {
         method: 'GET',
@@ -379,7 +342,6 @@ export default function TodoDashboard() {
         const errorData = await response.json();
         showToast(errorData.message || 'Failed to fetch todos', 'error');
       }
-      */
     } catch (error) {
       console.error('Fetch todos error:', error);
       showToast('Network error while fetching todos', 'error');
@@ -387,44 +349,56 @@ export default function TodoDashboard() {
     }
   };
 
-  // Add todo
+  // Add todo (save to backend)
   const addTodo = async () => {
     if (!checkAuth()) return;
-    
     if (!formData.workName || !formData.startDate || !formData.startTime || !formData.endDate || !formData.endTime) {
       showToast('Please fill in all fields', 'error');
       return;
     }
-
     setIsLoading(true);
     try {
-      // Mock API call
-      setTimeout(() => {
-        const newTodo = {
-          _id: Date.now().toString(),
-          ...formData
-        };
-        setTodos([...todos, newTodo]);
-        showToast('Todo added successfully! 🎉', 'success');
+      const token = getAuthToken();
+      const response = await fetch('https://dodot.onrender.com/api/todo', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (response.status === 401) {
+        showToast('Session expired. Please login again.', 'error');
+        localStorage.removeItem('authToken');
+        router.push('/login');
+        setIsLoading(false);
+        return;
+      }
+      if (response.ok) {
+        const data = await response.json();
+        // Add new todo to UI (API should return the created todo)
+        setTodos([...todos, data.todo || data]);
+        showToast('Todo added successfully', 'success');
         setShowAddModal(false);
         resetForm();
-        setIsLoading(false);
-      }, 1000);
-
-      // Show success confirmation
-      setConfirmModal({
-        isOpen: true,
-        title: 'Success!',
-        message: 'Your todo has been added successfully.',
-        type: 'success',
-        onConfirm: () => {
-          setConfirmModal({ ...confirmModal, isOpen: false });
-        }
-      });
-
+        // Show success confirmation
+        setConfirmModal({
+          isOpen: true,
+          title: 'Success!',
+          message: 'Your todo has been added successfully.',
+          type: 'success',
+          onConfirm: () => {
+            setConfirmModal({ ...confirmModal, isOpen: false });
+          }
+        });
+      } else {
+        const errorData = await response.json();
+        showToast(errorData.message || 'Failed to add todo', 'error');
+      }
     } catch (error) {
       console.error('Add todo error:', error);
       showToast('Network error while adding todo', 'error');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -609,7 +583,7 @@ export default function TodoDashboard() {
                 placeholder="Search todos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white"
+                className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none text-gray-900 placeholder-gray-500"
               />
             </div>
 
