@@ -5,6 +5,14 @@ import { Check, Star, Palette, CheckCircle2, Target, Zap, Shield } from 'lucide-
 import { useRouter } from 'next/navigation';
 const DoDotLanding = () => {
   const router = useRouter();
+
+  // Redirect to /app if authToken exists in localStorage
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      router.push('/app');
+    }
+  }, [router]);
   const [theme, setTheme] = useState('light');
   const [showColorPicker, setShowColorPicker] = useState(false);
 
