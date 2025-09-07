@@ -6,13 +6,7 @@ import { useRouter } from 'next/navigation';
 const DoDotLanding = () => {
   const router = useRouter();
 
-  // Redirect to /app if authToken exists in localStorage
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      router.push('/app');
-    }
-  }, [router]);
+  
   const [theme, setTheme] = useState('light');
   const [showColorPicker, setShowColorPicker] = useState(false);
 
@@ -172,7 +166,7 @@ const DoDotLanding = () => {
           <div className="flex items-center space-x-4">
             {/* Login/Signup Buttons */}
             <motion.button
-            onClick={() => router.push('/login')} 
+            onClick={() => router.push('/auth')} 
               className={`px-4 py-2 rounded-lg ${currentTheme.textSecondary} hover:${currentTheme.text} transition-colors`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

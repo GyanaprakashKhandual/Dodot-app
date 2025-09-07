@@ -75,7 +75,7 @@ const Sidebar = () => {
   const fetchProjects = async () => {
     if (!token) return;
     try {
-      const res = await axios.get("http://localhost:5000/api/v1/project/", {
+      const res = await axios.get("http://localhost:5000/api/v1/work-type/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
