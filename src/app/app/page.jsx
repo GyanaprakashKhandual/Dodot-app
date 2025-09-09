@@ -1,8 +1,11 @@
 import React from 'react'
+import DooDotNavbar from '../components/Navbar'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+        <DooDotNavbar/>
+    </div>
   )
 }
 
