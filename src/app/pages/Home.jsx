@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Bell, Mail, Users, Zap, Shield, ArrowRight, Menu, X, Star } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
 const DooDotLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +92,7 @@ const DooDotLanding = () => {
               <a href="#features" className="text-gray-700 hover:text-green-600 transition-colors">Features</a>
               <a href="#testimonials" className="text-gray-700 hover:text-green-600 transition-colors">Testimonials</a>
               <a href="#pricing" className="text-gray-700 hover:text-green-600 transition-colors">Pricing</a>
-              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
+              <button onClick={() => router.push('/auth')} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
                 Login
               </button>
             </div>
