@@ -24,6 +24,7 @@ import {
   Pause
 } from 'lucide-react';
 import { FaCoffee } from 'react-icons/fa';
+import TodoPage from './AddTodo';
 
 const DooDotNavbar = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -33,6 +34,8 @@ const DooDotNavbar = () => {
   const [selectedType, setSelectedType] = useState('All Types');
   const [theme, setTheme] = useState('Light');
   const isDark = theme === 'Dark';
+
+  const [isTODOModalOpen, setIsTODOModalOpen] = useState(false);
 
   const dropdownRefs = {
     priority: useRef(null),
@@ -216,7 +219,9 @@ const DooDotNavbar = () => {
         {/* Right Section: Actions and User Menu */}
         <div className="flex items-center gap-3">
           {/* Add TODO Button */}
-          <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors shadow-sm">
+          <button
+          onClick={() => setIsTODOModalOpen(true)}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors shadow-sm">
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">Add TODO</span>
           </button>
@@ -333,6 +338,11 @@ const DooDotNavbar = () => {
           </div>
         </div>
       </div>
+      <TodoPage
+      isOpen={isTODOModalOpen}
+      onClose={() => setIsTODOModalOpen(false)}
+      />
+
     </nav>
   );
 };
