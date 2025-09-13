@@ -1,13 +1,13 @@
 import React from 'react'
-import DooDotNavbar from '../components/Navbar'
-import KanbanBoard from '../pages/Kanban'
 import CardViewPage from '../pages/Card'
+import KanbanBoard from '../pages/Kanban'
+import Navbar from '../components/Navbar'
 
 function page() {
   return (
     <div>
-        <DooDotNavbar/>
-        <CardViewPage/>
+      <Navbar/>
+      <KanbanBoard/>
     </div>
   )
 }
